@@ -1,10 +1,13 @@
 # Admin Template Next.js MUI - Warehouse Management System
 
-A modern, feature-rich admin template built with Next.js, Material-UI (MUI), MongoDB, and TypeScript. Designed specifically for warehouse management backoffice systems with multi-role support.
+A modern, feature-rich full-stack admin template with Next.js frontend and NestJS backend, Material-UI (MUI), MongoDB, and TypeScript. Designed specifically for warehouse management backoffice systems with multi-role support and complete REST API.
 
 ## 🚀 Features
 
-- **Modern Tech Stack**: Built with Next.js 15, React 19, TypeScript, and Material-UI
+- **Modern Full-Stack Architecture**: 
+  - Frontend: Next.js 15, React 19, TypeScript, and Material-UI
+  - Backend: NestJS with MongoDB/Mongoose
+- **Complete REST API**: Full CRUD operations for all entities
 - **Multi-Role Support**: Admin, Manager, and Staff roles with role-based access control (RBAC)
 - **Warehouse Management**: 
   - Dashboard with real-time statistics and analytics
@@ -14,16 +17,19 @@ A modern, feature-rich admin template built with Next.js, Material-UI (MUI), Mon
   - Reports and analytics with charts
 - **Beautiful UI**: Clean, modern design using Material-UI components
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
-- **MongoDB Integration**: Ready for database integration with Mongoose models
-- **Authentication Ready**: JWT-based authentication structure in place
+- **MongoDB Integration**: Full database integration with Mongoose models
+- **JWT Authentication**: Secure token-based authentication
+- **Comprehensive Documentation**: API docs, schema design, and integration guides
 
 ## 📋 Prerequisites
 
 - Node.js 18.x or higher
 - npm or yarn
-- MongoDB (optional, for full backend functionality)
+- MongoDB 4.x or higher
 
 ## 🛠️ Installation
+
+### Quick Start (Both Frontend & Backend)
 
 1. Clone the repository:
 ```bash
@@ -31,54 +37,120 @@ git clone https://github.com/somkheartk/admin-template-nextjs-mui.git
 cd admin-template-nextjs-mui
 ```
 
-2. Install dependencies:
+2. **Start MongoDB**:
+```bash
+# Using Docker (recommended)
+docker run -d -p 27017:27017 --name mongodb mongo:latest
+
+# Or use your local MongoDB installation
+mongod
+```
+
+3. **Setup and Start Backend**:
+```bash
+cd backend
+npm install
+cp .env.example .env
+# Edit .env with your configuration
+npm run start:dev
+```
+Backend will run on `http://localhost:3001/api`
+
+4. **Setup and Start Frontend** (in a new terminal):
+```bash
+# From project root
+npm install
+cp .env.example .env.local
+# Edit .env.local with your configuration
+npm run dev
+```
+Frontend will run on `http://localhost:3000`
+
+### Frontend-Only Setup
+
 ```bash
 npm install
-```
-
-3. Set up environment variables:
-```bash
 cp .env.example .env.local
-```
-
-Edit `.env.local` with your configuration:
-```env
-MONGODB_URI=mongodb://localhost:27017/warehouse-admin
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your-secret-key-change-this-in-production
-JWT_SECRET=your-jwt-secret-change-this-in-production
-```
-
-4. Run the development server:
-```bash
 npm run dev
 ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser
+### Backend-Only Setup
+
+```bash
+cd backend
+npm install
+cp .env.example .env
+npm run start:dev
+```
+
+## 🌐 Configuration
+
+### Frontend Environment (`.env.local`)
+```env
+# MongoDB Configuration (for legacy code)
+MONGODB_URI=mongodb://localhost:27017/warehouse-admin
+
+# NextAuth Configuration
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-nextauth-secret-key
+
+# JWT Secret
+JWT_SECRET=your-jwt-secret-change-this-in-production
+
+# Backend API URL
+NEXT_PUBLIC_API_URL=http://localhost:3001/api
+```
+
+### Backend Environment (`backend/.env`)
+```env
+MONGODB_URI=mongodb://localhost:27017/warehouse-admin
+PORT=3001
+NODE_ENV=development
+JWT_SECRET=your-jwt-secret-change-this-in-production
+CORS_ORIGIN=http://localhost:3000
+```
 
 ## 📁 Project Structure
 
 ```
-src/
-├── app/                    # Next.js app directory
-│   ├── dashboard/         # Dashboard page
-│   ├── inventory/         # Inventory management
-│   ├── orders/           # Order management
-│   ├── users/            # User management
-│   ├── reports/          # Reports and analytics
-│   └── settings/         # Settings page
-├── components/            # React components
-│   └── layout/           # Layout components (Header, Sidebar, etc.)
-├── lib/                   # Utility functions
-│   ├── mongodb.ts        # MongoDB connection
-│   ├── auth.ts           # Authentication utilities
-│   └── theme.ts          # MUI theme configuration
-├── models/               # MongoDB/Mongoose models
-│   ├── User.ts           # User model
-│   ├── Product.ts        # Product model
-│   └── Order.ts          # Order model
-├── types/                # TypeScript type definitions
-└── middleware/           # Next.js middleware
+admin-template-nextjs-mui/
+├── backend/                 # NestJS Backend
+│   ├── src/
+│   │   ├── auth/           # Authentication module
+│   │   ├── users/          # Users module
+│   │   ├── products/       # Products module
+│   │   ├── orders/         # Orders module
+│   │   ├── app.module.ts   # Root module
+│   │   └── main.ts         # Entry point
+│   ├── .env.example
+│   ├── API.md              # API Documentation
+│   ├── SCHEMA.md           # Database Schema
+│   └── README.md           # Backend README
+│
+├── src/                     # Next.js Frontend
+│   ├── app/                # Next.js app directory
+│   │   ├── dashboard/      # Dashboard page
+│   │   ├── inventory/      # Inventory management
+│   │   ├── orders/         # Order management
+│   │   ├── users/          # User management
+│   │   ├── reports/        # Reports and analytics
+│   │   └── settings/       # Settings page
+│   ├── components/         # React components
+│   │   └── layout/         # Layout components
+│   ├── lib/                # Utility functions
+│   │   ├── api/            # API client
+│   │   ├── mongodb.ts      # MongoDB connection
+│   │   ├── auth.ts         # Auth utilities
+│   │   └── theme.ts        # MUI theme
+│   ├── models/             # Mongoose models
+│   │   ├── User.ts
+│   │   ├── Product.ts
+│   │   └── Order.ts
+│   └── types/              # TypeScript types
+│
+├── INTEGRATION.md          # Integration Guide
+├── README.md               # This file
+└── package.json
 ```
 
 ## 👥 User Roles
@@ -142,13 +214,26 @@ src/
 
 ## 🛠️ Technology Stack
 
+### Frontend
 - **Framework**: Next.js 15 (App Router)
 - **UI Library**: Material-UI (MUI) v6
 - **Language**: TypeScript
-- **Database**: MongoDB with Mongoose
-- **Authentication**: NextAuth.js with JWT
 - **Charts**: Recharts
 - **Styling**: Emotion (MUI's styling solution)
+
+### Backend
+- **Framework**: NestJS 11
+- **Database**: MongoDB with Mongoose ODM
+- **Authentication**: JWT with Passport.js
+- **Validation**: class-validator & class-transformer
+- **Password Hashing**: bcryptjs
+
+## 📚 Documentation
+
+- **[Integration Guide](./INTEGRATION.md)**: Complete guide for frontend-backend integration
+- **[Backend API Documentation](./backend/API.md)**: Detailed REST API endpoints
+- **[Database Schema](./backend/SCHEMA.md)**: MongoDB schema design and relationships
+- **[Backend README](./backend/README.md)**: Backend-specific documentation
 
 ## 📱 Responsive Design
 
@@ -160,17 +245,74 @@ The template is fully responsive and works on:
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
+### Frontend Deployment (Vercel)
 ```bash
 npm run build
 vercel deploy
 ```
 
-### Docker
+### Backend Deployment
+
+#### Using Docker
 ```bash
-docker build -t warehouse-admin .
-docker run -p 3000:3000 warehouse-admin
+cd backend
+docker build -t warehouse-backend .
+docker run -p 3001:3001 --env-file .env warehouse-backend
 ```
+
+#### Using PM2
+```bash
+cd backend
+npm run build
+pm2 start dist/main.js --name warehouse-backend
+```
+
+### Full Stack Deployment
+See [INTEGRATION.md](./INTEGRATION.md) for complete deployment instructions.
+
+## 🧪 Testing
+
+### Test Backend API
+```bash
+# Register a user
+curl -X POST http://localhost:3001/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","name":"Test","password":"password123"}'
+
+# Login
+curl -X POST http://localhost:3001/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"password123"}'
+
+# Get products (replace TOKEN with actual JWT)
+curl http://localhost:3001/api/products \
+  -H "Authorization: Bearer TOKEN"
+```
+
+### Test Frontend Integration
+1. Start both backend and frontend
+2. Navigate to `http://localhost:3000`
+3. Register/login through the UI
+4. Test CRUD operations on products and orders
+
+## 🔑 API Quick Reference
+
+### Authentication
+- `POST /api/auth/register` - Register user
+- `POST /api/auth/login` - Login user
+
+### Products
+- `GET /api/products` - List all products
+- `POST /api/products` - Create product
+- `PATCH /api/products/:id` - Update product
+- `DELETE /api/products/:id` - Delete product
+
+### Orders
+- `GET /api/orders` - List all orders
+- `POST /api/orders` - Create order
+- `POST /api/orders/:id/process` - Process order (updates stock)
+
+See [backend/API.md](./backend/API.md) for complete API documentation.
 
 ## 📝 Scripts
 
