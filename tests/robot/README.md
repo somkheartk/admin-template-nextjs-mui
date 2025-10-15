@@ -12,6 +12,7 @@ tests/robot/
 ├── 02_authentication.robot   # Authentication flow tests
 ├── 03_dashboard.robot        # Dashboard tests
 ├── 04_responsive.robot       # Responsive design tests
+├── 05_reports.robot          # Reports page tests
 └── README.md                 # This file
 ```
 
@@ -136,6 +137,7 @@ Tests are organized with the following tags:
 - `homepage` - Homepage related tests
 - `authentication` - Authentication flow tests
 - `dashboard` - Dashboard tests
+- `reports` - Reports page tests
 - `responsive` - Responsive design tests
 - `skip` - Tests that should be skipped (require special setup)
 
