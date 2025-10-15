@@ -116,7 +116,16 @@ jobs:
           node-version: '18'
           cache: 'npm'
       
-      - name: Install dependencies
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install Python dependencies
+        run: |
+          pip install -r requirements.txt
+      
+      - name: Install Node dependencies
         run: |
           npm ci
           cd backend && npm ci
@@ -142,10 +151,7 @@ jobs:
         env:
           NEXT_PUBLIC_API_URL: http://localhost:3001/api
       
-      - name: Install Playwright
-        run: npx playwright install --with-deps chromium
-      
-      - name: Run E2E tests
+      - name: Run E2E tests with Robot Framework
         run: npm run test:e2e
       
       - name: Upload E2E test results

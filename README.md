@@ -20,7 +20,7 @@ A modern, feature-rich full-stack admin template with Next.js frontend and NestJ
 - **MongoDB Integration**: Full database integration with Mongoose models
 - **JWT Authentication**: Secure token-based authentication
 - **Professional CI/CD Pipeline**: Automated testing, building, and deployment for dev, UAT, and production environments
-- **Comprehensive Testing**: Unit tests (Jest), E2E tests (Playwright), and automated security scanning
+- **Comprehensive Testing**: Unit tests (Jest), E2E tests (Robot Framework with Selenium), and automated security scanning
 - **Docker Support**: Full containerization with docker-compose for easy deployment
 - **Health Monitoring**: Built-in health check endpoints for application monitoring
 - **Comprehensive Documentation**: API docs, schema design, and integration guides
@@ -333,8 +333,15 @@ npm run test:cov         # With coverage report
 
 ### End-to-End Tests
 ```bash
-npm run test:e2e         # Run E2E tests with Playwright
-npx playwright show-report  # View test report
+# Install Python dependencies first
+pip install -r requirements.txt
+
+# Run E2E tests with Robot Framework
+npm run test:e2e         # Run E2E tests
+npm run test:e2e:report  # Generate consolidated report
+
+# View test results
+# Open test-results/report.html in a browser
 ```
 
 ### Test Backend API Manually

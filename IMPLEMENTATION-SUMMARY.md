@@ -15,7 +15,7 @@ Four comprehensive workflows were created in `.github/workflows/`:
 - **Features**:
   - Frontend linting and unit testing
   - Backend unit testing with MongoDB service
-  - E2E tests with Playwright (PR only)
+  - E2E tests with Robot Framework (PR only)
   - Security scanning with npm audit
   - Build artifact uploads
   - Parallel job execution for efficiency
@@ -86,19 +86,20 @@ Four comprehensive workflows were created in `.github/workflows/`:
   ```
 - **Status**: ✅ 20 tests passing
 
-#### **E2E Testing (Playwright)**
-- **Configuration**: `playwright.config.ts`
+#### **E2E Testing (Robot Framework with Selenium)**
+- **Configuration**: `requirements.txt` for Python dependencies
 - **Features**:
-  - Cross-browser testing (Chromium, Firefox, WebKit)
-  - Mobile viewport testing
-  - Screenshot on failure
-  - Trace on retry
-  - HTML and JSON reports
-- **Sample Tests**: `tests/e2e/homepage.spec.ts`
+  - Keyword-driven testing approach
+  - Cross-browser testing with Selenium
+  - Human-readable test syntax
+  - Detailed HTML and XML reports
+  - Screenshot capability on failure
+- **Sample Tests**: `tests/robot/*.robot`
 - **Commands**:
   ```bash
-  npm run test:e2e              # Run E2E tests
-  npx playwright show-report    # View results
+  pip install -r requirements.txt  # Install dependencies
+  npm run test:e2e                 # Run E2E tests
+  npm run test:e2e:report          # Generate report
   ```
 
 ### ✅ 3. Docker Support
@@ -265,7 +266,8 @@ npm test
 # Backend tests
 cd backend && npm test
 
-# E2E tests
+# E2E tests (Robot Framework)
+pip install -r requirements.txt  # First time only
 npm run test:e2e
 ```
 
@@ -331,15 +333,16 @@ Set these in GitHub Settings > Secrets and variables > Actions:
 - `backend/Dockerfile`
 - `docker-compose.yml`
 
-**Testing (8)**:
+**Testing (9)**:
 - `jest.config.js`
 - `jest.setup.js`
-- `playwright.config.ts`
+- `requirements.txt`
 - `backend/jest.config.js`
 - `src/__tests__/page.test.tsx`
 - `backend/src/auth/auth.service.spec.ts`
 - `backend/src/products/products.service.spec.ts`
-- `tests/e2e/homepage.spec.ts`
+- `tests/robot/resources/common.robot`
+- `tests/robot/*.robot` (4 test files)
 
 **Environment Files (6)**:
 - `.env.dev`, `.env.uat`, `.env.prod`
