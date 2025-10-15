@@ -21,6 +21,7 @@ import {
   ShoppingCart,
   Warning,
 } from '@mui/icons-material';
+import { useTranslations } from 'next-intl';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 
 interface StatCardProps {
@@ -69,42 +70,45 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, icon, trend, color })
 );
 
 const DashboardPage = () => {
+  const t = useTranslations('dashboard');
+  const tOrders = useTranslations('orders');
+  
   const stats = [
     {
-      title: 'Total Products',
+      title: t('totalProducts'),
       value: '1,234',
       icon: <Inventory sx={{ fontSize: 32, color: 'primary.main' }} />,
-      trend: '+12% from last month',
+      trend: `+12% ${t('fromLastMonth')}`,
       color: '#1976d2',
     },
     {
-      title: 'Pending Orders',
+      title: t('pendingOrders'),
       value: '45',
       icon: <ShoppingCart sx={{ fontSize: 32, color: 'warning.main' }} />,
-      trend: '+8% from last week',
+      trend: `+8% ${t('fromLastWeek')}`,
       color: '#ed6c02',
     },
     {
-      title: 'Low Stock Items',
+      title: t('lowStock'),
       value: '23',
       icon: <Warning sx={{ fontSize: 32, color: 'error.main' }} />,
       color: '#d32f2f',
     },
     {
-      title: 'Total Value',
+      title: t('totalValue'),
       value: '$125,430',
       icon: <TrendingUp sx={{ fontSize: 32, color: 'success.main' }} />,
-      trend: '+15% from last month',
+      trend: `+15% ${t('fromLastMonth')}`,
       color: '#2e7d32',
     },
   ];
 
   const recentOrders = [
-    { id: 'ORD-001', type: 'Inbound', status: 'Completed', items: 15, date: '2024-10-15' },
-    { id: 'ORD-002', type: 'Outbound', status: 'Processing', items: 8, date: '2024-10-15' },
-    { id: 'ORD-003', type: 'Inbound', status: 'Pending', items: 22, date: '2024-10-14' },
-    { id: 'ORD-004', type: 'Outbound', status: 'Completed', items: 12, date: '2024-10-14' },
-    { id: 'ORD-005', type: 'Inbound', status: 'Processing', items: 18, date: '2024-10-13' },
+    { id: 'ORD-001', type: tOrders('inbound'), status: tOrders('completed'), items: 15, date: '2024-10-15' },
+    { id: 'ORD-002', type: tOrders('outbound'), status: tOrders('processing'), items: 8, date: '2024-10-15' },
+    { id: 'ORD-003', type: tOrders('inbound'), status: tOrders('pending'), items: 22, date: '2024-10-14' },
+    { id: 'ORD-004', type: tOrders('outbound'), status: tOrders('completed'), items: 12, date: '2024-10-14' },
+    { id: 'ORD-005', type: tOrders('inbound'), status: tOrders('processing'), items: 18, date: '2024-10-13' },
   ];
 
   const lowStockProducts = [
@@ -115,26 +119,25 @@ const DashboardPage = () => {
   ];
 
   const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'completed':
-        return 'success';
-      case 'processing':
-        return 'warning';
-      case 'pending':
-        return 'info';
-      default:
-        return 'default';
+    const statusLower = status.toLowerCase();
+    if (statusLower.includes('completed') || statusLower.includes('เสร็จสิ้น')) {
+      return 'success';
+    } else if (statusLower.includes('processing') || statusLower.includes('กำลังดำเนินการ')) {
+      return 'warning';
+    } else if (statusLower.includes('pending') || statusLower.includes('รอดำเนินการ')) {
+      return 'info';
     }
+    return 'default';
   };
 
   return (
     <DashboardLayout>
       <Box>
         <Typography variant="h4" gutterBottom fontWeight={700}>
-          Dashboard
+          {t('title')}
         </Typography>
         <Typography variant="body1" color="text.secondary" paragraph>
-          Welcome back! Here&apos;s what&apos;s happening with your warehouse today.
+          {t('welcome')}
         </Typography>
 
         {/* Statistics Cards */}
@@ -150,17 +153,17 @@ const DashboardPage = () => {
           <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom fontWeight={600}>
-                Recent Orders
+                {t('recentOrders')}
               </Typography>
               <TableContainer>
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell>Order ID</TableCell>
-                      <TableCell>Type</TableCell>
-                      <TableCell>Status</TableCell>
-                      <TableCell align="right">Items</TableCell>
-                      <TableCell>Date</TableCell>
+                      <TableCell>{t('orderId')}</TableCell>
+                      <TableCell>{t('type')}</TableCell>
+                      <TableCell>{t('status')}</TableCell>
+                      <TableCell align="right">{t('items')}</TableCell>
+                      <TableCell>{t('date')}</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -193,7 +196,7 @@ const DashboardPage = () => {
           <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom fontWeight={600}>
-                Low Stock Alert
+                {t('lowStockAlert')}
               </Typography>
               <Box sx={{ mt: 2 }}>
                 {lowStockProducts.map((product, index) => (
@@ -204,7 +207,7 @@ const DashboardPage = () => {
                           {product.name}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
-                          {product.sku} • Current: {product.current} / Min: {product.min}
+                          {product.sku} • {t('current')}: {product.current} / {t('min')}: {product.min}
                         </Typography>
                       </Box>
                       <Typography

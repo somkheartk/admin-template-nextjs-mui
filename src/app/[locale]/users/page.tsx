@@ -9,39 +9,43 @@ import {
   Button,
 } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
+import { useTranslations } from 'next-intl';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 
 const UsersPage = () => {
+  const t = useTranslations('users');
+  const tRoles = useTranslations('roles');
+  
   return (
     <DashboardLayout>
       <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
           <Box>
             <Typography variant="h4" gutterBottom fontWeight={700}>
-              Users Management
+              {t('title')}
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Manage user accounts and role-based access control
+              {t('subtitle')}
             </Typography>
           </Box>
           <Button variant="contained" startIcon={<AddIcon />}>
-            Add User
+            {t('addUser')}
           </Button>
         </Box>
 
         <Card>
           <CardContent>
             <Typography variant="h6" gutterBottom fontWeight={600}>
-              Role Permissions
+              {t('rolePermissions')}
             </Typography>
             <Typography variant="body2" color="text.secondary" paragraph>
-              <strong>Admin:</strong> Full access to all features
+              <strong>{tRoles('admin')}:</strong> {t('adminDescription')}
             </Typography>
             <Typography variant="body2" color="text.secondary" paragraph>
-              <strong>Manager:</strong> Manage inventory, orders, and staff users
+              <strong>{tRoles('manager')}:</strong> {t('managerDescription')}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              <strong>Staff:</strong> View and update inventory, create orders
+              <strong>{tRoles('staff')}:</strong> {t('staffDescription')}
             </Typography>
           </CardContent>
         </Card>

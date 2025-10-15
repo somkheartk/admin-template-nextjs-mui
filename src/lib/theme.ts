@@ -31,6 +31,7 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: [
+      'Kanit',
       '-apple-system',
       'BlinkMacSystemFont',
       '"Segoe UI"',
