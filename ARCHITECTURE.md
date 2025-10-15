@@ -550,3 +550,221 @@ Cloud Infrastructure
 5. **Microservices**
    - Split backend into services
    - Event-driven architecture
+
+---
+
+## Role-Based Access Control & Dynamic Role Switching
+
+### Overview
+
+The system implements a robust RBAC (Role-Based Access Control) system with the unique feature of dynamic role switching, allowing users to switch between different roles without re-authentication.
+
+### Role Hierarchy
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                      Role Hierarchy                     │
+├─────────────────────────────────────────────────────────┤
+│                                                         │
+│   ┌─────────────────────────────────────────────┐     │
+│   │             Admin (Full Access)              │     │
+│   │  - All system permissions                    │     │
+│   │  - User management                           │     │
+│   │  - System configuration                      │     │
+│   │  - Can switch to any role                    │     │
+│   └──────────────────┬───────────────────────────┘     │
+│                      │                                  │
+│   ┌──────────────────┴───────────────────────────┐     │
+│   │           Manager (Management Access)         │     │
+│   │  - Inventory management                       │     │
+│   │  - Order management                           │     │
+│   │  - View users                                 │     │
+│   │  - Can switch roles                           │     │
+│   └──────────────────┬───────────────────────────┘     │
+│                      │                                  │
+│   ┌──────────────────┴───────────────────────────┐     │
+│   │            Staff (Limited Access)             │     │
+│   │  - View/update inventory                      │     │
+│   │  - Create orders                              │     │
+│   │  - View orders                                │     │
+│   │  - Can switch roles (if enabled)              │     │
+│   └───────────────────────────────────────────────┘     │
+│                                                         │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Role Switching Flow
+
+```
+User Request to Switch Role
+         │
+         ▼
+┌────────────────────────┐
+│  Frontend Component    │
+│  (Header.tsx)          │
+│  - User clicks avatar  │
+│  - Selects "Switch     │
+│    Role" option        │
+│  - Chooses new role    │
+└────────┬───────────────┘
+         │
+         ▼ API Call: POST /api/users/switch-role
+         │
+┌────────┴───────────────┐
+│  API Client            │
+│  (client.ts)           │
+│  - Sends role change   │
+│    request with JWT    │
+└────────┬───────────────┘
+         │
+         ▼
+┌────────┴───────────────┐
+│  Backend Controller    │
+│  (users.controller.ts) │
+│  - Validates JWT       │
+│  - Extracts user ID    │
+└────────┬───────────────┘
+         │
+         ▼
+┌────────┴───────────────┐
+│  Users Service         │
+│  (users.service.ts)    │
+│  - Updates user role   │
+│    in database         │
+└────────┬───────────────┘
+         │
+         ▼
+┌────────┴───────────────┐
+│  Auth Service          │
+│  (auth.service.ts)     │
+│  - Generates new JWT   │
+│    with updated role   │
+└────────┬───────────────┘
+         │
+         ▼
+┌────────┴───────────────┐
+│  Response              │
+│  - Updated user data   │
+│  - New JWT token       │
+└────────┬───────────────┘
+         │
+         ▼
+┌────────┴───────────────┐
+│  Frontend Updates      │
+│  - Stores new token    │
+│  - Refreshes UI        │
+│  - Updates permissions │
+└────────────────────────┘
+```
+
+### Implementation Details
+
+#### Backend Components
+
+**1. DTO (Data Transfer Object)**
+```typescript
+// backend/src/users/dto/user.dto.ts
+export class SwitchRoleDto {
+  @IsEnum(UserRole)
+  @IsNotEmpty()
+  role: UserRole;
+}
+```
+
+**2. Controller Endpoint**
+```typescript
+// backend/src/users/users.controller.ts
+@Post('switch-role')
+@UseGuards(JwtAuthGuard)
+async switchRole(@Request() req, @Body() switchRoleDto: SwitchRoleDto) {
+  const userId = req.user.sub;
+  const updatedUser = await this.usersService.switchRole(userId, switchRoleDto.role);
+  const newToken = await this.authService.refreshToken(userId);
+  return {
+    user: updatedUser,
+    token: newToken,
+  };
+}
+```
+
+**3. Service Method**
+```typescript
+// backend/src/users/users.service.ts
+async switchRole(userId: string, newRole: string): Promise<User> {
+  const user = await this.userModel
+    .findByIdAndUpdate(userId, { role: newRole }, { new: true })
+    .select('-password')
+    .exec();
+  return user;
+}
+```
+
+#### Frontend Components
+
+**1. API Client Method**
+```typescript
+// src/lib/api/client.ts
+async switchRole(role: string) {
+  const response = await this.request('/users/switch-role', {
+    method: 'POST',
+    body: JSON.stringify({ role }),
+  });
+  
+  if (response.data?.token) {
+    this.setToken(response.data.token);
+  }
+  
+  return response;
+}
+```
+
+**2. UI Component**
+```typescript
+// src/components/layout/Header.tsx
+const handleRoleSwitch = async (newRole: string) => {
+  const response = await apiClient.switchRole(newRole);
+  if (response.data) {
+    setCurrentRole(newRole);
+    window.location.reload(); // Refresh to apply new permissions
+  }
+};
+```
+
+### Security Considerations
+
+1. **JWT Token Update**: Each role switch generates a new JWT token with updated role information
+2. **Database Persistence**: Role changes are persisted in MongoDB
+3. **Immediate Effect**: New token takes effect immediately upon receipt
+4. **Session Continuity**: User stays logged in during role switch
+5. **Audit Trail**: Role changes can be logged for security auditing
+
+### Use Cases
+
+1. **Testing Permissions**: Developers can quickly test different role permissions
+2. **Multi-Role Users**: Users with multiple responsibilities can switch contexts
+3. **Training**: Trainers can demonstrate different user experiences
+4. **Support**: Support staff can view issues from different role perspectives
+
+### UI/UX Features
+
+1. **Visual Indicators**:
+   - Admin: Red badge with shield icon
+   - Manager: Orange badge with management icon
+   - Staff: Blue badge with person icon
+
+2. **Menu Integration**:
+   - Role switcher in user profile menu
+   - Current role highlighted
+   - All available roles displayed
+
+3. **Smooth Transitions**:
+   - No page reload required for token update
+   - Optional page refresh for UI updates
+   - Loading states during switch
+
+### Performance Impact
+
+- **Minimal Overhead**: Single API call and token refresh
+- **Fast Response**: Typically < 100ms
+- **No Re-authentication**: Maintains existing session
+- **Efficient**: Only updates necessary data

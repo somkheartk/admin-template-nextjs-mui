@@ -169,17 +169,22 @@ admin-template-nextjs-mui/
 - Full access to all features
 - Can manage users, roles, and permissions
 - Access to all reports and analytics
+- Can switch to any role for testing
 
 ### Manager
 - Manage inventory and products
 - Manage orders (inbound/outbound)
 - Can manage staff users
 - Access to reports
+- Can switch roles
 
 ### Staff
 - View and update inventory
 - Create and process orders
 - Limited access to reports
+- Can view orders
+
+**Note**: All roles support dynamic role switching through the UI without requiring re-authentication.
 
 ## 🎨 Key Features
 
