@@ -29,11 +29,9 @@ const LanguageSwitcher: React.FC = () => {
   const handleLanguageChange = (newLocale: string) => {
     handleClose();
     
-    // Remove current locale from pathname if it exists
-    const pathnameWithoutLocale = pathname.replace(/^\/[a-z]{2}/, '');
-    const newPath = newLocale === 'en' 
-      ? pathnameWithoutLocale || '/' 
-      : `/${newLocale}${pathnameWithoutLocale || '/'}`;
+    // next-intl's usePathname returns path without locale
+    // We need to construct the new path with the new locale
+    const newPath = `/${newLocale}${pathname}`;
     
     router.push(newPath);
     router.refresh();

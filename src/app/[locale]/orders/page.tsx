@@ -9,23 +9,26 @@ import {
   Button,
 } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
+import { useTranslations } from 'next-intl';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 
 const OrdersPage = () => {
+  const t = useTranslations('orders');
+  
   return (
     <DashboardLayout>
       <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
           <Box>
             <Typography variant="h4" gutterBottom fontWeight={700}>
-              Orders Management
+              {t('title')}
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Track and manage inbound and outbound orders
+              {t('subtitle')}
             </Typography>
           </Box>
           <Button variant="contained" startIcon={<AddIcon />}>
-            Create Order
+            {t('createOrder')}
           </Button>
         </Box>
 
