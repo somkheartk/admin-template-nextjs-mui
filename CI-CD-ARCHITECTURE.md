@@ -27,7 +27,7 @@
 │  │ • Install deps      │  │ • Install deps      │  │ • Start MongoDB  │   │
 │  │ • Run ESLint        │  │ • Start MongoDB     │  │ • Start Backend  │   │
 │  │ • Run unit tests    │  │ • Run unit tests    │  │ • Start Frontend │   │
-│  │ • Build Next.js     │  │ • Build NestJS      │  │ • Run Playwright │   │
+│  │ • Build Next.js     │  │ • Build NestJS      │  │ • Run Robot FW   │   │
 │  │ • Upload artifacts  │  │ • Upload artifacts  │  │ • Upload results │   │
 │  └─────────────────────┘  └─────────────────────┘  └──────────────────┘   │
 │                                                                               │
@@ -113,7 +113,7 @@
 │                                                                               │
 │                              ┌─────────────┐                                 │
 │                              │   E2E Tests │                                 │
-│                              │  Playwright │                                 │
+│                              │   Robot FW  │                                 │
 │                              │   Slowest   │                                 │
 │                              └─────────────┘                                 │
 │                         ┌───────────────────────┐                            │
