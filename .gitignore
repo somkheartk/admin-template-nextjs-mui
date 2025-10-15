@@ -13,6 +13,10 @@
 
 # testing
 /coverage
+/backend/coverage
+/test-results/
+/playwright-report/
+/.playwright/
 
 # next.js
 /.next/
@@ -35,8 +39,14 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 !.env.example
+!.env.dev
+!.env.uat
+!.env.prod
 /backend/.env
 !/backend/.env.example
+!/backend/.env.dev
+!/backend/.env.uat
+!/backend/.env.prod
 
 # vercel
 .vercel
