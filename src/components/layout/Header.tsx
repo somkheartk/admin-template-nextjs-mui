@@ -18,6 +18,8 @@ import {
   Settings,
 } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -25,6 +27,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const router = useRouter();
+  const t = useTranslations();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   // Mock user data - in production, this would come from auth context
@@ -75,16 +78,17 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
         </IconButton>
 
         <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-          Warehouse Management System
+          {t('common.appName')}
         </Typography>
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <Chip
-            label={user.role.toUpperCase()}
+            label={t(`roles.${user.role}`).toUpperCase()}
             color="primary"
             size="small"
             sx={{ display: { xs: 'none', sm: 'flex' } }}
           />
+          <LanguageSwitcher />
           <IconButton
             size="large"
             aria-label="account of current user"
@@ -127,11 +131,11 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
             </MenuItem>
             <MenuItem onClick={handleSettings}>
               <Settings sx={{ mr: 1 }} fontSize="small" />
-              Settings
+              {t('common.settings')}
             </MenuItem>
             <MenuItem onClick={handleLogout}>
               <Logout sx={{ mr: 1 }} fontSize="small" />
-              Logout
+              {t('common.logout')}
             </MenuItem>
           </Menu>
         </Box>

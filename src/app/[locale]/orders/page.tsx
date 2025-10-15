@@ -9,39 +9,33 @@ import {
   Button,
 } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
+import { useTranslations } from 'next-intl';
 import DashboardLayout from '@/components/layout/DashboardLayout';
 
-const UsersPage = () => {
+const OrdersPage = () => {
+  const t = useTranslations('orders');
+  
   return (
     <DashboardLayout>
       <Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
           <Box>
             <Typography variant="h4" gutterBottom fontWeight={700}>
-              Users Management
+              {t('title')}
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Manage user accounts and role-based access control
+              {t('subtitle')}
             </Typography>
           </Box>
           <Button variant="contained" startIcon={<AddIcon />}>
-            Add User
+            {t('createOrder')}
           </Button>
         </Box>
 
         <Card>
           <CardContent>
-            <Typography variant="h6" gutterBottom fontWeight={600}>
-              Role Permissions
-            </Typography>
-            <Typography variant="body2" color="text.secondary" paragraph>
-              <strong>Admin:</strong> Full access to all features
-            </Typography>
-            <Typography variant="body2" color="text.secondary" paragraph>
-              <strong>Manager:</strong> Manage inventory, orders, and staff users
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              <strong>Staff:</strong> View and update inventory, create orders
+            <Typography variant="body1" color="text.secondary">
+              Orders management features coming soon...
             </Typography>
           </CardContent>
         </Card>
@@ -50,4 +44,4 @@ const UsersPage = () => {
   );
 };
 
-export default UsersPage;
+export default OrdersPage;
