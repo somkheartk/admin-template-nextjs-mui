@@ -11,7 +11,9 @@
     "search": "ค้นหา",
     "filter": "กรอง",
     "export": "ส่งออก",
-    "import": "นำเข้า"
+    "import": "นำเข้า",
+    "switchRole": "สลับบทบาท",
+    "current": "ปัจจุบัน"
   },
   "roles": {
     "admin": "ผู้ดูแลระบบ",

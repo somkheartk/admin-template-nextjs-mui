@@ -57,4 +57,9 @@ export class AuthService {
     const { password, ...result } = user.toObject();
     return result;
   }
+
+  async refreshToken(userId: string): Promise<string> {
+    const user = await this.usersService.findOne(userId);
+    return this.generateToken(user as any);
+  }
 }

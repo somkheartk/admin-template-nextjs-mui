@@ -33,20 +33,33 @@ interface StatCardProps {
 }
 
 const StatCard: React.FC<StatCardProps> = ({ title, value, icon, trend, color }) => (
-  <Card sx={{ height: '100%' }}>
-    <CardContent>
+  <Card 
+    sx={{ 
+      height: '100%',
+      background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
+      border: '1px solid',
+      borderColor: 'divider',
+      transition: 'all 0.3s ease-in-out',
+      '&:hover': {
+        transform: 'translateY(-4px)',
+        boxShadow: '0 12px 24px rgba(0,0,0,0.1)',
+        borderColor: color,
+      }
+    }}
+  >
+    <CardContent sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <Box>
-          <Typography color="text.secondary" variant="body2" gutterBottom>
+        <Box sx={{ flex: 1 }}>
+          <Typography color="text.secondary" variant="body2" gutterBottom fontWeight={500}>
             {title}
           </Typography>
-          <Typography variant="h4" component="div" fontWeight={700}>
+          <Typography variant="h3" component="div" fontWeight={700} sx={{ mb: 1.5 }}>
             {value}
           </Typography>
           {trend && (
             <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
-              <TrendingUp sx={{ fontSize: 16, color: 'success.main', mr: 0.5 }} />
-              <Typography variant="caption" color="success.main">
+              <TrendingUp sx={{ fontSize: 18, color: 'success.main', mr: 0.5 }} />
+              <Typography variant="body2" color="success.main" fontWeight={600}>
                 {trend}
               </Typography>
             </Box>
@@ -54,12 +67,13 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, icon, trend, color })
         </Box>
         <Box
           sx={{
-            backgroundColor: `${color}20`,
-            borderRadius: 2,
-            p: 1.5,
+            background: `linear-gradient(135deg, ${color}15 0%, ${color}30 100%)`,
+            borderRadius: 2.5,
+            p: 2,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            boxShadow: `0 4px 12px ${color}20`,
           }}
         >
           {icon}
@@ -133,15 +147,22 @@ const DashboardPage = () => {
   return (
     <DashboardLayout>
       <Box>
-        <Typography variant="h4" gutterBottom fontWeight={700}>
-          {t('title')}
-        </Typography>
-        <Typography variant="body1" color="text.secondary" paragraph>
-          {t('welcome')}
-        </Typography>
+        <Box sx={{ mb: 4 }}>
+          <Typography variant="h4" gutterBottom fontWeight={700} sx={{ 
+            background: 'linear-gradient(135deg, #1976d2 0%, #42a5f5 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }}>
+            {t('title')}
+          </Typography>
+          <Typography variant="body1" color="text.secondary" sx={{ fontWeight: 400 }}>
+            {t('welcome')}
+          </Typography>
+        </Box>
 
         {/* Statistics Cards */}
-        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: 'repeat(4, 1fr)' }, gap: 3, mb: 4 }}>
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', lg: 'repeat(4, 1fr)' }, gap: 3, mb: 4 }}>
           {stats.map((stat, index) => (
             <StatCard key={index} {...stat} />
           ))}
@@ -150,40 +171,77 @@ const DashboardPage = () => {
         {/* Recent Orders and Low Stock */}
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '2fr 1fr' }, gap: 3 }}>
           {/* Recent Orders */}
-          <Card>
-            <CardContent>
-              <Typography variant="h6" gutterBottom fontWeight={600}>
-                {t('recentOrders')}
-              </Typography>
+          <Card sx={{ 
+            border: '1px solid',
+            borderColor: 'divider',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+          }}>
+            <CardContent sx={{ p: 3 }}>
+              <Box sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'space-between',
+                mb: 3,
+                pb: 2,
+                borderBottom: '2px solid',
+                borderColor: 'divider',
+              }}>
+                <Typography variant="h6" fontWeight={700}>
+                  {t('recentOrders')}
+                </Typography>
+                <Chip label={`${recentOrders.length} ${t('items')}`} size="small" color="primary" />
+              </Box>
               <TableContainer>
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell>{t('orderId')}</TableCell>
-                      <TableCell>{t('type')}</TableCell>
-                      <TableCell>{t('status')}</TableCell>
-                      <TableCell align="right">{t('items')}</TableCell>
-                      <TableCell>{t('date')}</TableCell>
+                      <TableCell sx={{ fontWeight: 600, color: 'text.secondary' }}>{t('orderId')}</TableCell>
+                      <TableCell sx={{ fontWeight: 600, color: 'text.secondary' }}>{t('type')}</TableCell>
+                      <TableCell sx={{ fontWeight: 600, color: 'text.secondary' }}>{t('status')}</TableCell>
+                      <TableCell align="right" sx={{ fontWeight: 600, color: 'text.secondary' }}>{t('items')}</TableCell>
+                      <TableCell sx={{ fontWeight: 600, color: 'text.secondary' }}>{t('date')}</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {recentOrders.map((order) => (
-                      <TableRow key={order.id} hover>
+                      <TableRow 
+                        key={order.id} 
+                        hover
+                        sx={{
+                          '&:hover': {
+                            backgroundColor: 'action.hover',
+                            cursor: 'pointer',
+                          }
+                        }}
+                      >
                         <TableCell>
-                          <Typography variant="body2" fontWeight={600}>
+                          <Typography variant="body2" fontWeight={700} color="primary">
                             {order.id}
                           </Typography>
                         </TableCell>
-                        <TableCell>{order.type}</TableCell>
+                        <TableCell>
+                          <Typography variant="body2" fontWeight={500}>
+                            {order.type}
+                          </Typography>
+                        </TableCell>
                         <TableCell>
                           <Chip
                             label={order.status}
                             color={getStatusColor(order.status)}
                             size="small"
+                            sx={{ fontWeight: 600 }}
                           />
                         </TableCell>
-                        <TableCell align="right">{order.items}</TableCell>
-                        <TableCell>{order.date}</TableCell>
+                        <TableCell align="right">
+                          <Typography variant="body2" fontWeight={600}>
+                            {order.items}
+                          </Typography>
+                        </TableCell>
+                        <TableCell>
+                          <Typography variant="body2" color="text.secondary">
+                            {order.date}
+                          </Typography>
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -193,27 +251,58 @@ const DashboardPage = () => {
           </Card>
 
           {/* Low Stock Products */}
-          <Card>
-            <CardContent>
-              <Typography variant="h6" gutterBottom fontWeight={600}>
-                {t('lowStockAlert')}
-              </Typography>
+          <Card sx={{ 
+            border: '1px solid',
+            borderColor: 'divider',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+          }}>
+            <CardContent sx={{ p: 3 }}>
+              <Box sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'space-between',
+                mb: 3,
+                pb: 2,
+                borderBottom: '2px solid',
+                borderColor: 'divider',
+              }}>
+                <Typography variant="h6" fontWeight={700}>
+                  {t('lowStockAlert')}
+                </Typography>
+                <Warning sx={{ color: 'error.main' }} />
+              </Box>
               <Box sx={{ mt: 2 }}>
                 {lowStockProducts.map((product, index) => (
-                  <Box key={index} sx={{ mb: 3 }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                  <Box 
+                    key={index} 
+                    sx={{ 
+                      mb: 3,
+                      p: 2,
+                      borderRadius: 2,
+                      backgroundColor: 'action.hover',
+                      transition: 'all 0.2s',
+                      '&:hover': {
+                        backgroundColor: 'action.selected',
+                        transform: 'translateX(4px)',
+                      }
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.5 }}>
                       <Box>
-                        <Typography variant="body2" fontWeight={600}>
+                        <Typography variant="body2" fontWeight={700}>
                           {product.name}
                         </Typography>
-                        <Typography variant="caption" color="text.secondary">
+                        <Typography variant="caption" color="text.secondary" fontWeight={500}>
                           {product.sku} • {t('current')}: {product.current} / {t('min')}: {product.min}
                         </Typography>
                       </Box>
                       <Typography
                         variant="body2"
                         color={product.status < 50 ? 'error' : 'warning.main'}
-                        fontWeight={600}
+                        fontWeight={700}
+                        sx={{ 
+                          fontSize: '1.1rem',
+                        }}
                       >
                         {product.status}%
                       </Typography>
@@ -222,7 +311,14 @@ const DashboardPage = () => {
                       variant="determinate"
                       value={product.status}
                       color={product.status < 50 ? 'error' : 'warning'}
-                      sx={{ height: 8, borderRadius: 1 }}
+                      sx={{ 
+                        height: 10, 
+                        borderRadius: 1,
+                        backgroundColor: product.status < 50 ? 'error.light' : 'warning.light',
+                        '& .MuiLinearProgress-bar': {
+                          borderRadius: 1,
+                        }
+                      }}
                     />
                   </Box>
                 ))}

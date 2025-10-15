@@ -159,6 +159,37 @@ Authorization: Bearer <your-jwt-token>
 - **Auth Required**: Yes
 - **Roles**: Admin
 
+#### Switch Role
+- **URL**: `/api/users/switch-role`
+- **Method**: `POST`
+- **Auth Required**: Yes (JWT token required)
+- **Roles**: Any authenticated user
+- **Body**:
+```json
+{
+  "role": "admin"
+}
+```
+- **Success Response**:
+```json
+{
+  "user": {
+    "_id": "507f1f77bcf86cd799439011",
+    "email": "user@example.com",
+    "name": "User Name",
+    "role": "admin",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+- **Note**: 
+  - Allows users to dynamically switch between different roles (admin, manager, staff)
+  - Returns a new JWT token with the updated role
+  - The new token should be used for all subsequent requests
+  - Useful for testing different role permissions or multi-role users
+
 ### Product Endpoints
 
 #### Get All Products
