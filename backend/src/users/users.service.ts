@@ -68,4 +68,17 @@ export class UsersService {
       throw new NotFoundException('User not found');
     }
   }
+
+  async switchRole(userId: string, newRole: string): Promise<User> {
+    const user = await this.userModel
+      .findByIdAndUpdate(userId, { role: newRole }, { new: true })
+      .select('-password')
+      .exec();
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
+  }
 }

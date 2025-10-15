@@ -38,3 +38,9 @@ export class UpdateUserDto {
   @IsOptional()
   role?: UserRole;
 }
+
+export class SwitchRoleDto {
+  @IsEnum(UserRole)
+  @IsNotEmpty()
+  role: UserRole;
+}

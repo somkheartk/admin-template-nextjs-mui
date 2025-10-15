@@ -133,6 +133,19 @@ class ApiClient {
     return this.request(`/users/${id}`, { method: 'DELETE' });
   }
 
+  async switchRole(role: string) {
+    const response = await this.request<{ user: { _id: string; email: string; name: string; role: string }; token: string }>('/users/switch-role', {
+      method: 'POST',
+      body: JSON.stringify({ role }),
+    });
+
+    if (response.data?.token) {
+      this.setToken(response.data.token);
+    }
+
+    return response;
+  }
+
   // Products
   async getProducts() {
     return this.request('/products', { method: 'GET' });

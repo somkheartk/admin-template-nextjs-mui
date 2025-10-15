@@ -11,7 +11,9 @@
     "search": "Search",
     "filter": "Filter",
     "export": "Export",
-    "import": "Import"
+    "import": "Import",
+    "switchRole": "Switch Role",
+    "current": "Current"
   },
   "roles": {
     "admin": "Admin",
