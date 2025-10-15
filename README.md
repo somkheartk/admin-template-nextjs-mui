@@ -19,6 +19,10 @@ A modern, feature-rich full-stack admin template with Next.js frontend and NestJ
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
 - **MongoDB Integration**: Full database integration with Mongoose models
 - **JWT Authentication**: Secure token-based authentication
+- **Professional CI/CD Pipeline**: Automated testing, building, and deployment for dev, UAT, and production environments
+- **Comprehensive Testing**: Unit tests (Jest), E2E tests (Playwright), and automated security scanning
+- **Docker Support**: Full containerization with docker-compose for easy deployment
+- **Health Monitoring**: Built-in health check endpoints for application monitoring
 - **Comprehensive Documentation**: API docs, schema design, and integration guides
 
 ## 📋 Prerequisites
@@ -230,10 +234,13 @@ admin-template-nextjs-mui/
 
 ## 📚 Documentation
 
+- **[CI/CD Guide](./CI-CD-GUIDE.md)**: Complete CI/CD pipeline and testing documentation
+- **[Quick Start Guide](./QUICKSTART.md)**: 5-minute setup guide
 - **[Integration Guide](./INTEGRATION.md)**: Complete guide for frontend-backend integration
 - **[Backend API Documentation](./backend/API.md)**: Detailed REST API endpoints
 - **[Database Schema](./backend/SCHEMA.md)**: MongoDB schema design and relationships
 - **[Backend README](./backend/README.md)**: Backend-specific documentation
+- **[Architecture Guide](./ARCHITECTURE.md)**: System architecture and design
 
 ## 📱 Responsive Design
 
@@ -244,6 +251,28 @@ The template is fully responsive and works on:
 - Mobile (below 768px)
 
 ## 🚀 Deployment
+
+### Docker Deployment (Recommended)
+
+#### Local Development with Docker Compose
+```bash
+# Start all services (frontend, backend, MongoDB)
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop all services
+docker-compose down
+```
+
+Services will be available at:
+- **Frontend:** http://localhost:3000
+- **Backend:** http://localhost:3001/api
+- **MongoDB:** localhost:27017
+
+#### Production Docker Deployment
+See [CI-CD-GUIDE.md](./CI-CD-GUIDE.md) for production deployment instructions.
 
 ### Frontend Deployment (Vercel)
 ```bash
@@ -267,12 +296,48 @@ npm run build
 pm2 start dist/main.js --name warehouse-backend
 ```
 
-### Full Stack Deployment
-See [INTEGRATION.md](./INTEGRATION.md) for complete deployment instructions.
+### CI/CD Pipeline
+
+This project includes professional CI/CD workflows for automated testing and deployment to multiple environments:
+
+- **Development (dev)**: Auto-deploy from `develop` branch
+- **UAT**: Auto-deploy from `uat` branch
+- **Production**: Tag-based deployment (v*.*.*)
+
+**Workflows:**
+- Continuous Integration (linting, testing, building)
+- Automated security scanning
+- Environment-specific deployments
+- Docker image building and publishing
+
+See [CI-CD-GUIDE.md](./CI-CD-GUIDE.md) for detailed CI/CD documentation.
 
 ## 🧪 Testing
 
-### Test Backend API
+### Unit Tests
+
+#### Frontend Tests
+```bash
+npm test                 # Run all tests
+npm run test:watch       # Watch mode
+npm run test:coverage    # With coverage report
+```
+
+#### Backend Tests
+```bash
+cd backend
+npm test                 # Run all tests
+npm run test:watch       # Watch mode
+npm run test:cov         # With coverage report
+```
+
+### End-to-End Tests
+```bash
+npm run test:e2e         # Run E2E tests with Playwright
+npx playwright show-report  # View test report
+```
+
+### Test Backend API Manually
 ```bash
 # Register a user
 curl -X POST http://localhost:3001/api/auth/register \

@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react'
 import Home from '@/app/page'
 
-// Mock the necessary modules
+// Mock the navigation module
 jest.mock('next/navigation', () => ({
+  redirect: jest.fn(),
   useRouter: () => ({
     push: jest.fn(),
     replace: jest.fn(),
@@ -16,7 +17,9 @@ jest.mock('next/navigation', () => ({
 
 describe('Home Page', () => {
   it('should render without crashing', () => {
-    render(<Home />)
-    expect(document.body).toBeInTheDocument()
+    // This page redirects, so we just check it doesn't throw
+    expect(() => {
+      render(<Home />)
+    }).not.toThrow()
   })
 })

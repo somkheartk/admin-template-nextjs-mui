@@ -16,6 +16,7 @@ describe('ProductsService', () => {
     price: 100,
     quantity: 50,
     minQuantity: 10,
+    unit: 'pcs',
     category: 'Electronics',
     save: jest.fn(),
   };
@@ -64,6 +65,7 @@ describe('ProductsService', () => {
         price: 100,
         quantity: 50,
         minQuantity: 10,
+        unit: 'pcs',
         category: 'Electronics',
       };
 
@@ -90,6 +92,7 @@ describe('ProductsService', () => {
         price: 100,
         quantity: 50,
         minQuantity: 10,
+        unit: 'pcs',
         category: 'Electronics',
       };
 
