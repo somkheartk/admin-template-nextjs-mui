@@ -108,11 +108,17 @@ curl -X POST http://localhost:3001/api/products \
 ### Test the Frontend
 1. Open http://localhost:3000
 2. Navigate through the sidebar menu:
-   - **Dashboard**: View statistics
+   - **Dashboard**: View statistics with real-time data
    - **Inventory**: Manage products
    - **Orders**: Create and track orders
    - **Users**: Manage users (Admin only)
    - **Reports**: View analytics
+3. **Try Role Switching**:
+   - Click on your profile avatar in the top-right corner
+   - Select "Switch Role" from the dropdown menu
+   - Choose between Admin, Manager, or Staff roles
+   - The interface will update to reflect the new role permissions
+   - No re-login required!
 
 ## Project Structure
 
@@ -176,22 +182,32 @@ JWT_SECRET=your-secret-key
 
 ## User Roles
 
-The system supports three user roles:
+The system supports three user roles with dynamic role switching:
 
-1. **Admin**
+1. **Admin** (Red Badge)
    - Full access to all features
    - Can manage users
    - Can manage products and orders
+   - Can switch to any role instantly
 
-2. **Manager**
+2. **Manager** (Orange Badge)
    - Can manage products and orders
    - Can view users
    - Cannot create/delete users
+   - Can switch roles for testing
 
-3. **Staff**
+3. **Staff** (Blue Badge)
    - Can view and update products
    - Can create and view orders
    - Limited access
+   - Can switch roles if enabled
+
+### Role Switching Feature
+- Click your avatar in the header
+- Select "Switch Role" from the menu
+- Choose your desired role
+- No re-authentication required
+- Perfect for testing different permissions
 
 ## Common Issues & Solutions
 

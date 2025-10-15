@@ -217,7 +217,37 @@ const response = await apiClient.updateProductStock(
 const response = await apiClient.getLowStockProducts();
 ```
 
-### 4. Working with Orders
+### 4. Role Switching
+
+The system supports dynamic role switching without re-authentication:
+
+#### Switch Role
+```typescript
+const response = await apiClient.switchRole('manager');
+
+if (response.data) {
+  console.log('Role switched successfully');
+  console.log('New user data:', response.data.user);
+  console.log('New token:', response.data.token);
+  // Token is automatically updated in the client
+  // Refresh the page or update UI to reflect new permissions
+  window.location.reload();
+} else {
+  console.error('Error switching role:', response.error);
+}
+```
+
+**Available Roles:**
+- `admin` - Full system access
+- `manager` - Manage inventory and orders
+- `staff` - Limited access
+
+**Note:** The `switchRole` method automatically:
+1. Sends the role change request to the backend
+2. Updates the stored JWT token with the new role
+3. Returns the updated user data and new token
+
+### 5. Working with Orders
 
 #### Get All Orders
 ```typescript

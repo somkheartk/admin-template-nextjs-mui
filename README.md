@@ -9,21 +9,27 @@ A modern, feature-rich full-stack admin template with Next.js frontend and NestJ
   - Backend: NestJS with MongoDB/Mongoose
 - **Complete REST API**: Full CRUD operations for all entities
 - **Multi-Role Support**: Admin, Manager, and Staff roles with role-based access control (RBAC)
+- **Dynamic Role Switching**: Users can switch between roles in real-time without re-authentication
 - **Warehouse Management**: 
   - Dashboard with real-time statistics and analytics
   - Inventory management with stock tracking
   - Order management (inbound/outbound)
   - User management with role permissions
   - Reports and analytics with charts
-- **Beautiful UI**: Clean, modern design using Material-UI components
+- **Beautiful UI**: Clean, modern design using Material-UI components with commercial-grade styling
+  - Gradient effects and smooth animations
+  - Hover effects and transitions
+  - Professional color schemes
+  - Responsive cards with shadow effects
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
 - **MongoDB Integration**: Full database integration with Mongoose models
-- **JWT Authentication**: Secure token-based authentication
+- **JWT Authentication**: Secure token-based authentication with automatic refresh on role change
 - **Professional CI/CD Pipeline**: Automated testing, building, and deployment for dev, UAT, and production environments
 - **Comprehensive Testing**: Unit tests (Jest), E2E tests (Robot Framework with Selenium), and automated security scanning
 - **Docker Support**: Full containerization with docker-compose for easy deployment
 - **Health Monitoring**: Built-in health check endpoints for application monitoring
 - **Comprehensive Documentation**: API docs, schema design, and integration guides
+- **Multi-language Support**: English and Thai language support with i18n
 
 ## 📋 Prerequisites
 
@@ -178,10 +184,19 @@ admin-template-nextjs-mui/
 ## 🎨 Key Features
 
 ### Dashboard
-- Real-time statistics cards
-- Recent orders overview
-- Low stock alerts
-- Trend indicators
+- Real-time statistics cards with gradient backgrounds
+- Smooth hover animations and transitions
+- Recent orders overview with interactive table
+- Low stock alerts with visual progress indicators
+- Trend indicators with color-coded badges
+- Professional commercial-grade design
+
+### Role Management
+- **Dynamic Role Switching**: Switch between Admin, Manager, and Staff roles instantly
+- **Visual Role Indicators**: Color-coded role badges (Admin: Red, Manager: Orange, Staff: Blue)
+- **Role Icons**: Distinct icons for each role for better UX
+- **Seamless Experience**: No re-login required when switching roles
+- **Persistent Sessions**: Role changes update JWT tokens automatically
 
 ### Inventory Management
 - Product listing with search and filter
@@ -372,6 +387,13 @@ curl http://localhost:3001/api/products \
 ### Authentication
 - `POST /api/auth/register` - Register user
 - `POST /api/auth/login` - Login user
+
+### Users
+- `GET /api/users` - List all users
+- `POST /api/users` - Create user
+- `PATCH /api/users/:id` - Update user
+- `DELETE /api/users/:id` - Delete user
+- `POST /api/users/switch-role` - Switch user role (returns new JWT token)
 
 ### Products
 - `GET /api/products` - List all products
