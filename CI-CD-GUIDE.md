@@ -32,7 +32,7 @@ The project implements a professional CI/CD pipeline with three distinct environ
 **Jobs:**
 - **lint-and-test-frontend**: Lints and tests frontend code, builds the application
 - **lint-and-test-backend**: Runs backend tests with MongoDB, builds the API
-- **e2e-tests**: Runs end-to-end tests with Playwright (PR only)
+- **e2e-tests**: Runs end-to-end tests with Robot Framework (PR only)
 - **security-scan**: Runs npm audit for security vulnerabilities
 
 **Example:**
@@ -188,26 +188,43 @@ describe('AuthService', () => {
 });
 ```
 
-### 2. End-to-End Tests (Playwright)
+### 2. End-to-End Tests (Robot Framework with Selenium)
 
-**Location:** `tests/e2e/`
+**Location:** `tests/robot/`
+
+**Prerequisites:**
+```bash
+# Install Python dependencies
+pip install -r requirements.txt
+```
 
 **Run tests:**
 ```bash
-npm run test:e2e         # Run E2E tests
-npx playwright test      # Run with Playwright CLI
-npx playwright show-report  # View test report
+npm run test:e2e                    # Run E2E tests
+npm run test:e2e:report             # Generate consolidated report
+robot --outputdir test-results tests/robot  # Run with Robot Framework CLI directly
 ```
 
 **Example test:**
-```typescript
-import { test, expect } from '@playwright/test';
+```robot
+*** Settings ***
+Documentation     Homepage tests
+Resource          resources/common.robot
+Suite Setup       Open Application
+Suite Teardown    Close Application
 
-test('should load the homepage', async ({ page }) => {
-  await page.goto('/');
-  await expect(page).toHaveTitle(/Admin/i);
-});
+*** Test Cases ***
+Should Load The Homepage
+    [Documentation]    Verifies that the homepage loads successfully
+    [Tags]    smoke    homepage
+    Go To    ${BASE_URL}
+    Wait For Page Load
+    Location Should Contain    ${BASE_URL}
 ```
+
+**View test results:**
+- Open `test-results/report.html` in a browser for detailed test report
+- Open `test-results/log.html` for detailed test execution log
 
 ### 3. Coverage Thresholds
 

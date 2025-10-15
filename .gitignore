@@ -15,8 +15,6 @@
 /coverage
 /backend/coverage
 /test-results/
-/playwright-report/
-/.playwright/
 
 # next.js
 /.next/
