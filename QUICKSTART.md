@@ -245,6 +245,7 @@ CORS_ORIGIN=http://localhost:3000
 Now that everything is running, you can:
 
 1. **Read the Documentation**
+   - [Complete Feature List](./FEATURES.md) - All features and capabilities
    - [API Documentation](./backend/API.md) - Learn about all API endpoints
    - [Database Schema](./backend/SCHEMA.md) - Understand the data model
    - [Integration Guide](./INTEGRATION.md) - Frontend-backend integration

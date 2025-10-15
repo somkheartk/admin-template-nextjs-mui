@@ -254,6 +254,7 @@ admin-template-nextjs-mui/
 
 ## 📚 Documentation
 
+- **[Complete Feature List](./FEATURES.md)**: Comprehensive list of all features and capabilities
 - **[CI/CD Guide](./CI-CD-GUIDE.md)**: Complete CI/CD pipeline and testing documentation
 - **[Quick Start Guide](./QUICKSTART.md)**: 5-minute setup guide
 - **[Integration Guide](./INTEGRATION.md)**: Complete guide for frontend-backend integration
